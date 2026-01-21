@@ -14,7 +14,7 @@
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Löydät örkin metsästä ja tämä hyökkää sinua kohti. Taistelu alkaa");
 
-            while (Ritari > 0 || Örkki > 0)
+            while (Ritari > 1 || Örkki > 1)
             {
                 Console.WriteLine("------------------------------------------------------------------");
 
@@ -44,6 +44,9 @@
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Örkki hyökkää sinua kohti nuijallaan!");
                     Console.WriteLine($"Nuija osuu sinuun, tehden {Örkkivahinko} vahinkoa.");
+
+                    Ritari -= Örkkivahinko;
+                    Örkki -= Pelaajavahinko;
                 }
                 else
                 {
@@ -54,6 +57,8 @@
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Örkki hyökkää sinua kohti nuijallaan!");
                     Console.WriteLine($"Nuija kumahtaa kilpeesi, tehden sinuun vain {VähenettyVahinko} vahinkoa");
+
+                    Ritari -= VähenettyVahinko;
                 }
             }
         }
