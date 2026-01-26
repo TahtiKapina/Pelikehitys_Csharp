@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            
+
             int Ritari = 15; // Ritarin terveyspisteet.
             int Örkki = 15; // Örkin terveyspisteet.
             int aikomus;
@@ -14,8 +14,9 @@
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Löydät örkin metsästä ja tämä hyökkää sinua kohti. Taistelu alkaa");
 
-            while (Ritari > 1 || Örkki > 1)
+            while (Ritari > 0 || Örkki > 0)
             {
+
                 Console.WriteLine("------------------------------------------------------------------");
 
                 Console.WriteLine($"Ritari(Sinä): {Ritari}/15   Örkki: {Örkki}/15");
@@ -60,7 +61,43 @@
 
                     Ritari -= VähenettyVahinko;
                 }
+
+                if (Örkki < 1)
+                {
+                    Örkki = 0;
+
+                    break;
+                }
+
+                if (Ritari < 1)
+                {
+                    Ritari = 0;
+
+                    break;
+                }
             }
+
+            if (Örkki == 0 && Ritari == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("");
+                Console.WriteLine("Rohkea ritari sai örkin kukistettua, mutta ei itse selvinnyt örkin osumista");
+            }
+
+            else if (Örkki == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("");
+                Console.WriteLine("Rohkea ritari kukisiti örkin");
+            }
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("");
+                Console.WriteLine("Örkki onnistui päihitämään ritarin");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
