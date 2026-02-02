@@ -14,7 +14,7 @@
 
             int Ritari = 15; // Ritarin terveyspisteet.
             int Örkki = 15; // Örkin terveyspisteet.
-            int aikomus;
+            int aikomus = 1;
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Olet urhea ritari ja sinut on lähetetty kukistamaan kylää tuhoavan örkin.");
@@ -24,12 +24,14 @@
 
             while (Ritari > 0 && Örkki > 0)
             {
-                GameState(Ritari, Örkki, aikomus);
-
                 int Pelaajavahinko = Vahinkopisteet(1, 7);
                 int Örkkivahinko = Vahinkopisteet(1, 5);
 
+                GameState(Ritari, Örkki, aikomus);
+
                 PlayerAction(ref Ritari, ref Örkki, aikomus, Pelaajavahinko, Örkkivahinko);
+
+
 
                 if (Örkki < 1)
                 {
@@ -67,7 +69,7 @@
                 Console.WriteLine("Örkki onnistui päihitämään ritarin");
             }
             Console.ForegroundColor = ConsoleColor.White;
-        }
+        //}
 
         static void GameState(int Ritari, int Örkki, int aikomus)
         {
@@ -82,7 +84,7 @@
             aikomus = Convert.ToInt32(Console.ReadLine());
         }
 
-        static void PlayerAction(ref int Ritari, ref int Örkki, int Örkkivahinko, int aikomus, int Pelaajavahinko)
+        static void PlayerAction(ref int Ritari, ref int Örkki, int aikomus, int Pelaajavahinko, int Örkkivahinko)
         {
             if (aikomus == 1)
             {
