@@ -2,10 +2,10 @@
 {
     internal class Program
     {
+        static Random random = new Random();
+
         static int Vahinkopisteet(int min, int max)
         {
-            Random random = new Random();
-
             return random.Next(min, max);
         }
 
@@ -27,7 +27,7 @@
                 int Pelaajavahinko = Vahinkopisteet(1, 7);
                 int Örkkivahinko = Vahinkopisteet(1, 5);
 
-                GameState(Ritari, Örkki, aikomus);
+                aikomus = GameState(Ritari, Örkki);
 
                 PlayerAction(ref Ritari, ref Örkki, aikomus, Pelaajavahinko, Örkkivahinko);
 
@@ -69,9 +69,9 @@
                 Console.WriteLine("Örkki onnistui päihitämään ritarin");
             }
             Console.ForegroundColor = ConsoleColor.White;
-        //}
+        }
 
-        static void GameState(int Ritari, int Örkki, int aikomus)
+        static int GameState(int Ritari, int Örkki)
         {
             Console.WriteLine("------------------------------------------------------------------");
 
@@ -81,7 +81,14 @@
             Console.WriteLine("2 - Puolustaudu kilvellä");
 
             Console.Write("Mitä haluat tehdä? ");
-            aikomus = Convert.ToInt32(Console.ReadLine());
+            string? input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int aikomus))
+            {
+                aikomus = 2;
+            }
+
+            return aikomus;
         }
 
         static void PlayerAction(ref int Ritari, ref int Örkki, int aikomus, int Pelaajavahinko, int Örkkivahinko)
