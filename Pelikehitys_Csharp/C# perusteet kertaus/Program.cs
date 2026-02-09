@@ -14,7 +14,7 @@
 
             int Ritari = 15; // Ritarin terveyspisteet.
             int Örkki = 15; // Örkin terveyspisteet.
-            int aikomus = 1;
+            int aikomus = 1; // Pelaajan aikomus, 1 = hyökkäys, 2 = puolustus.
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Olet urhea ritari ja sinut on lähetetty kukistamaan kylää tuhoavan örkin.");
