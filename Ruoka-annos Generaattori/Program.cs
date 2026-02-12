@@ -6,7 +6,7 @@
         {
             Nauta,
             Kana,
-            kasvis
+            Kasvis
         }
 
         enum Lisuke
@@ -53,7 +53,9 @@
                 Kastike = kastike
             };
 
-            Console.WriteLine($"{ateria.PaaraakaAine} ja {ateria.Lisuke} {ateria.Kastike}-kastikkeella");
+            
+
+            Console.WriteLine($"{ateria.PaaraakaAine} ja {ateria.Lisuke} ateria {ateria.Kastike}-kastikkeella");
         }
     }
 }
