@@ -4,16 +4,16 @@
     {
         enum Kärki
         {
-            Puu,
-            Teräs,
-            Timantti
+            Puu, // 3 kultarahaa
+            Teräs, // 5 kultarahaa
+            Timantti // 50 kultarahaa
         }
 
         enum Sulat
         {
-            Lehti,
-            kanansulka,
-            kotkansulka
+            Lehti, // 0 kultarahaa
+            kanansulka, // 1 kultaraha
+            kotkansulka // 5 kultarahaa
         }
 
         int pituus;
@@ -22,8 +22,6 @@
         {
             public Kärki Kärki { get; set; }
             public Sulat Sulat { get; set; }
-
-
         }
 
         static void Main(string[] args)
@@ -35,11 +33,15 @@
             string SulatInput = Console.ReadLine();
 
             Console.WriteLine("Nuolen pituus sentteinä (60-100): ");
-            int pituus = Convert.ToInt32(Console.ReadLine);
+            int pituus = Convert.ToInt32(Console.ReadLine());
 
-            int Summa = 0;
+            Kärki kärki = Enum.Parse<Kärki>(KärkiInput, true);
+            Sulat sulat = Enum.Parse<Sulat>(SulatInput, true);
 
-            Console.WriteLine($"Tämän nuolen hinta on // Täydenettävää // kultarahaa");
+            float Summa = KärkiHinta(kärki) + SulkienHinta(sulat) + PituusHinta(pituus);
+
+
+            Console.WriteLine($"Tämän nuolen hinta on {Summa} kultarahaa");
         }
 
         static int KärkiHinta(Kärki kärki)
@@ -72,13 +74,15 @@
             }
         }
 
-        static double PituusHinta(int pituus)
+        static float PituusHinta(int pituus)
         {
             if (pituus < 60 || pituus > 100)
             {
                 throw new ArgumentOutOfRangeException("Pituuden tulee olla välillä 60-100 senttimetriä.");
             }
-            return pituus * 0.05;
+            return pituus * 0.05f;
         }
+
+
     }
 }
