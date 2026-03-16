@@ -20,15 +20,38 @@
 
         class Nuoli
         {
-            public Kärki Kärki { get; set; }
-            public Sulat Sulat { get; set; }
+            public Kärki kärki { get; private set; }
+            public Sulat sulat { get; private set; }
+
+            public int Pituus
+            {
+                get { return pituus; }
+                set
+                {
+                    if (value < 60)
+                    {
+                        pituus = 60;
+                    }
+                    pituus = value;
+                }
+            }
+            public Nuoli(Kärki kärki, Sulat sulat)
+            {
+                this.kärki = kärki;
+                this.sulat = sulat;
+            }
+
+            private int pituus;
+            public Kärki GetKärki() { return kärki; }
+            public Sulat GetSulat() { return sulat; }
         }
+
 
         static void Main(string[] args)
         {
             Console.WriteLine("Minkälainen kärki (puu, teräs, timantti)?: ");
             string KärkiInput = Console.ReadLine();
-
+            Nuoli n = new Nuoli(Enum.Parse<Kärki>(KärkiInput, true), Sulat.Lehti);
             Console.WriteLine("Minkälaiset sulat (lehti, kanansulka, kotkansulka)?:");
             string SulatInput = Console.ReadLine();
 
@@ -82,7 +105,5 @@
             }
             return pituus * 0.05f;
         }
-
-
     }
 }
