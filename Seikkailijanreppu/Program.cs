@@ -1,10 +1,27 @@
-﻿namespace Seikkailijanreppu
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace Seikkailijanreppu
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            var reppu = new Reppu();
 
+            // Call Lisää repeatedly until the user stops.
+            while (true)
+            {
+                bool added = reppu.Lisää(null); // Lisää shows the menu and creates the chosen item internally
+                Console.WriteLine(added ? "Lisäys onnistui." : "Lisäys epäonnistui.");
+                Console.WriteLine("Haluatko lisätä toisen? (1 (jatka) / 2 (lopeta))");
+                if (int.TryParse(Console.ReadLine(), out int input))
+                {
+                     if (input == 2)
+                     break;
+                }
+            }
+
+            Console.WriteLine("Ohjelma lopetetaan.");
         }
 
         class Tavara
@@ -20,56 +37,38 @@
 
         class Nuoli : Tavara
         {
-            public Nuoli(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 0.1f;
-                float Tilavuus = 0.05f;
-            }
+            public Nuoli() : base(0.1f, 0.05f) { }
+            public Nuoli(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class jousi : Tavara
         {
-            public jousi(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 1f;
-                float Tilavuus = 4f;
-            }
+            public jousi() : base(1f, 4f) { }
+            public jousi(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class Köysi : Tavara
         {
-            public Köysi(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 1f;
-                float Tilavuus = 1.5f;
-            }
+            public Köysi() : base(1f, 1.5f) { }
+            public Köysi(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class Vesi : Tavara
         {
-            public Vesi(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 2f;
-                float Tilavuus = 2f;
-            }
+            public Vesi() : base(2f, 2f) { }
+            public Vesi(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class Ruoka_annos : Tavara
         {
-            public Ruoka_annos(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 1f;
-                float Tilavuus = 0.5f;
-            }
+            public Ruoka_annos() : base(1f, 0.5f) { }
+            public Ruoka_annos(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class Miekka : Tavara
         {
-            public Miekka(float paino, float tilavuus) : base(paino, tilavuus)
-            {
-                float Paino = 5f;
-                float Tilavuus = 3f;
-            }
+            public Miekka() : base(5f, 3f) { }
+            public Miekka(float paino, float tilavuus) : base(paino, tilavuus) { }
         }
 
         class Reppu
@@ -83,7 +82,7 @@
             List<Tavara> Tavarat = new List<Tavara>();
             public bool Lisää(Tavara tavara)
             {
-                Console.WriteLine($"Repussa on tällä hetkellä {Tavaramäärä}/10 tavaraa, {Paino}/30 painoa ja {Tilavuus}/20 tilavuus");
+                Console.WriteLine($"Repussa on tällä hetkellä {Tavaramäärä}/{Maxtavaramäärä} tavaraa, {Paino}/{Maxpaino} painoa ja {Tilavuus}/{Maxtilavuus} tilavuus");
                 Console.WriteLine("Mitä haluat lisätä?");
                 Console.WriteLine("1 - Nuoli");
                 Console.WriteLine("2 - Jousi");
@@ -91,7 +90,11 @@
                 Console.WriteLine("4 - Vettä");
                 Console.WriteLine("5 - Ruokaa");
                 Console.WriteLine("6 - Miekka");
-                int valinta = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int valinta))
+                {
+                    Console.WriteLine("Virheellinen syöte. Anna numero väliltä 1-6.");
+                    return false;
+                }
 
                 switch (valinta)
                 {
@@ -117,6 +120,29 @@
                         Console.WriteLine("Virheellinen valinta.");
                         return false;
                 }
+                
+                if (tavara == null) return false;
+                if (Tavaramäärä + 1 > Maxtavaramäärä)
+                {
+                    Console.WriteLine("Reppu on täynnä.");
+                    return false;
+                }
+                if (Paino + tavara.Paino > Maxpaino)
+                {
+                    Console.WriteLine("Reppu ei kestä enempää painoa.");
+                    return false;
+                }
+                if (Tilavuus + tavara.Tilavuus > Maxtilavuus)
+                {
+                    Console.WriteLine("Repulla ei ole tarpeeksi tilavuutta.");
+                    return false;
+                }
+
+                Tavarat.Add(tavara);
+                Tavaramäärä++;
+                Paino += tavara.Paino;
+                Tilavuus += tavara.Tilavuus;
+                return true;
             }
         }
     }
