@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace Seikkailijanreppu
+﻿namespace Seikkailijanreppu
 {
     internal class Program
     {
@@ -8,16 +6,18 @@ namespace Seikkailijanreppu
         {
             var reppu = new Reppu();
 
-            // Call Lisää repeatedly until the user stops.
             while (true)
             {
-                bool added = reppu.Lisää(null); // Lisää shows the menu and creates the chosen item internally
-                Console.WriteLine(added ? "Lisäys onnistui." : "Lisäys epäonnistui.");
+                bool lisätty = reppu.Lisää(null);
+                Console.WriteLine(lisätty ? "Lisäys onnistui." : "Lisäys epäonnistui.");
+                Console.WriteLine();
+                Console.WriteLine(reppu);
+                Console.WriteLine();
                 Console.WriteLine("Haluatko lisätä toisen? (1 (jatka) / 2 (lopeta))");
                 if (int.TryParse(Console.ReadLine(), out int input))
                 {
-                     if (input == 2)
-                     break;
+                    if (input == 2) // jos numero on 2 niin lopettaa ohjelman
+                        break;
                 }
             }
 
@@ -33,55 +33,104 @@ namespace Seikkailijanreppu
                 Paino = paino;
                 Tilavuus = tilavuus;
             }
+
+            public override string ToString()
+            {
+                return "Tavara";
+            }
         }
 
         class Nuoli : Tavara
         {
             public Nuoli() : base(0.1f, 0.05f) { }
             public Nuoli(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Nuoli";
+            }
         }
 
-        class jousi : Tavara
+        class Jousi : Tavara
         {
-            public jousi() : base(1f, 4f) { }
-            public jousi(float paino, float tilavuus) : base(paino, tilavuus) { }
+            public Jousi() : base(1f, 4f) { }
+            public Jousi(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Jousi";
+            }
         }
 
         class Köysi : Tavara
         {
             public Köysi() : base(1f, 1.5f) { }
             public Köysi(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Köysi";
+            }
         }
 
         class Vesi : Tavara
         {
             public Vesi() : base(2f, 2f) { }
             public Vesi(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Vesi";
+            }
         }
 
         class Ruoka_annos : Tavara
         {
             public Ruoka_annos() : base(1f, 0.5f) { }
             public Ruoka_annos(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Ruoka-annos";
+            }
         }
 
         class Miekka : Tavara
         {
             public Miekka() : base(5f, 3f) { }
             public Miekka(float paino, float tilavuus) : base(paino, tilavuus) { }
+
+            public override string ToString()
+            {
+                return "Miekka";
+            }
         }
 
         class Reppu
-        {   
-            int Tavaramäärä = 0;
-            int Maxtavaramäärä = 5;
-            float Paino = 0f;
-            float Maxpaino = 10f;
-            float Tilavuus = 0f;
-            float Maxtilavuus = 15f;
+        {
+            int Tavaramäärä = 0; // tänhetkinen tavaramäärä
+            int Maxtavaramäärä = 5; // maksimi tavaramäärä
+            float Paino = 0f; // tänhetkinen paino
+            float Maxpaino = 10f; // maksimi paino
+            float Tilavuus = 0f; // tänhetkinen tilavuus
+            float Maxtilavuus = 15f; // maksimi tilavuus
             List<Tavara> Tavarat = new List<Tavara>();
+
+            public override string ToString()
+            {
+                if (Tavarat.Count == 0)
+                {
+                    return "Reppu on tyhjä.";
+                }
+
+                string sisältö = string.Join(", ", Tavarat);
+                return $"Reppun sisällä on seuraavan tavarat: {sisältö}";
+            }
+
             public bool Lisää(Tavara tavara)
             {
+                Console.WriteLine($"");
+
                 Console.WriteLine($"Repussa on tällä hetkellä {Tavaramäärä}/{Maxtavaramäärä} tavaraa, {Paino}/{Maxpaino} painoa ja {Tilavuus}/{Maxtilavuus} tilavuus");
                 Console.WriteLine("Mitä haluat lisätä?");
                 Console.WriteLine("1 - Nuoli");
@@ -101,26 +150,26 @@ namespace Seikkailijanreppu
                     case 1:
                         tavara = new Nuoli(0.1f, 0.05f);
                         break;
-                    case 2: 
-                        tavara = new jousi(1f, 4f);
+                    case 2:
+                        tavara = new Jousi(1f, 4f);
                         break;
-                    case 3: 
+                    case 3:
                         tavara = new Köysi(1f, 1.5f);
                         break;
-                    case 4: 
+                    case 4:
                         tavara = new Vesi(2f, 2f);
                         break;
-                    case 5: 
+                    case 5:
                         tavara = new Ruoka_annos(1f, 0.5f);
                         break;
-                    case 6: 
+                    case 6:
                         tavara = new Miekka(5f, 3f);
                         break;
-                    default: 
+                    default:
                         Console.WriteLine("Virheellinen valinta.");
                         return false;
                 }
-                
+
                 if (tavara == null) return false;
                 if (Tavaramäärä + 1 > Maxtavaramäärä)
                 {
