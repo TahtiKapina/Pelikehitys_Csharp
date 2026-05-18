@@ -5,15 +5,15 @@
         static void Main(string[] args)
         {
             Robotti robotti = new Robotti();
-            
-            for(int i=0; i < robotti.Käskyt.Length; i++)
+
+            for (int i = 0; i < robotti.Käskyt.Length; i++)
             {
                 Console.Write("Mitä komentoja syötetään robotille? Vaihtoehdot: Käynnistä, Sammuta, Ylös, Alas, Oikea, Vasen. ");
                 string syote = Console.ReadLine();
 
                 switch (syote)
                 {
-                    case "Käynnistä":   
+                    case "Käynnistä":
                         robotti.Käskyt[i] = new Käynistä();
                         break;
                     case "Sammuta":
@@ -34,7 +34,7 @@
                     default:
                         robotti.Käskyt[i] = null;
                         break;
-                } 
+                }
             }
 
             Console.WriteLine();
